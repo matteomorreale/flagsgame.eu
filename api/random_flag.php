@@ -1,7 +1,13 @@
 <?php
 /**
- * Random Flag API Endpoint
- * Author: Matteo Morreale
+ * Indovina la Bandiera! - Random Flag API Endpoint
+ * Copyright (C) 2025 Matteo Morreale
+ * 
+ * Questo software è di proprietà esclusiva di Matteo Morreale.
+ * È vietato l'uso commerciale e la redistribuzione non autorizzata.
+ * 
+ * Autore: Matteo Morreale
+ * Tutti i diritti riservati.
  */
 
 header('Content-Type: application/json');

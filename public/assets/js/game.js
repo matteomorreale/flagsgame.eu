@@ -1,6 +1,12 @@
 /**
- * Flag Game Main Logic
- * Author: Matteo Morreale
+ * Indovina la Bandiera! - Interactive Flag Guessing Game
+ * Copyright (C) 2025 Matteo Morreale
+ * 
+ * Questo software è di proprietà esclusiva di Matteo Morreale.
+ * È vietato l'uso commerciale e la redistribuzione non autorizzata.
+ * 
+ * Autore: Matteo Morreale
+ * Tutti i diritti riservati.
  */
 
 class FlagGame {

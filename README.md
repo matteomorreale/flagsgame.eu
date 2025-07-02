@@ -221,9 +221,63 @@ Verifica la risposta dell'utente e restituisce dati geografici.
 
 ## Licenza
 
-Progetto sviluppato da **Matteo Morreale**.
+### © 2025 Matteo Morreale - Tutti i diritti riservati
+
+Questo progetto è rilasciato sotto licenza proprietaria con le seguenti condizioni:
+
+#### ✅ **Permessi**
+
+- ✅ **Uso Personale**: È consentito l'uso del software per scopi personali e didattici
+- ✅ **Modifica**: È possibile modificare il codice per uso personale
+- ✅ **Studio**: È consentito studiare il codice per scopi educativi
+- ✅ **Fork**: È possibile creare fork del progetto su GitHub per contribuire
+
+#### ❌ **Restrizioni**
+
+- ❌ **Uso Commerciale**: È vietato qualsiasi uso commerciale del software
+- ❌ **Redistribuzione**: È vietata la redistribuzione del software senza autorizzazione
+- ❌ **Vendita**: È vietata la vendita del software o di sue parti
+- ❌ **Rimozione Copyright**: È vietata la rimozione delle informazioni di copyright
+
+#### 📋 **Obblighi**
+
+- 📋 **Attribuzione**: L'autore originale (Matteo Morreale) deve essere sempre citato
+- 📋 **Copyright**: Tutte le opere derivate devono mantenere questa licenza
+- 📋 **Disclaimer**: Il software è fornito "così com'è" senza garanzie
+
+### Nota Legale
+
+```text
+Indovina la Bandiera! - Interactive Flag Guessing Game
+Copyright (C) 2025 Matteo Morreale
+
+Questo software e il relativo codice sorgente sono di proprietà esclusiva di
+Matteo Morreale. È vietato l'uso commerciale, la redistribuzione non autorizzata
+o la rimozione di questo avviso di copyright.
+
+Per richieste di licenze commerciali o permessi speciali, contattare l'autore.
+
+IL SOFTWARE È FORNITO "COSÌ COM'È", SENZA GARANZIE DI ALCUN TIPO, ESPLICITE O
+IMPLICITE, INCLUSE MA NON LIMITATE ALLE GARANZIE DI COMMERCIABILITÀ, IDONEITÀ
+PER UN PARTICOLARE SCOPO E NON VIOLAZIONE.
+```
+
+### Richieste di Licenza
+
+Per richieste di **licenze commerciali** o **permessi speciali** per l'uso del software,
+contattare l'autore del progetto.
 
 ## Supporto
 
-Per problemi o domande, contattare l'autore del progetto.
+Per problemi tecnici, bug report o domande sul progetto, contattare:
+
+**Matteo Morreale** - Autore e Proprietario del Progetto
+
+---
+
+### Disclaimer
+
+Questo software utilizza il servizio **FlagsAPI** (<https://flagsapi.com/>) per le immagini
+delle bandiere. Le immagini delle bandiere potrebbero essere soggette a diritti d'autore
+separati. L'uso delle bandiere è limitato al contesto educativo e non commerciale di questo gioco.
 
