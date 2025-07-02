@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indovina la Bandiera! - di Matteo Morreale</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header con titolo e statistiche -->
+        <header class="game-header">
+            <div class="header-content">
+                <h1 class="game-title">
+                    <i class="fas fa-flag"></i>
+                    Indovina la Bandiera!
+                </h1>
+                <div class="author-credit">di Matteo Morreale</div>
+            </div>
+            
+            <!-- Statistiche e medaglie -->
+            <div class="stats-section">
+                <div class="stats-container">
+                    <div class="stat-item correct">
+                        <i class="fas fa-check-circle"></i>
+                        <span class="stat-label">Corrette</span>
+                        <span class="stat-value" id="correct-count">0</span>
+                    </div>
+                    <div class="stat-item incorrect">
+                        <i class="fas fa-times-circle"></i>
+                        <span class="stat-label">Errate</span>
+                        <span class="stat-value" id="incorrect-count">0</span>
+                    </div>
+                    <div class="stat-item bonus">
+                        <i class="fas fa-star"></i>
+                        <span class="stat-label">Punti Bonus</span>
+                        <span class="stat-value" id="bonus-points">0</span>
+                        <span class="multiplier" id="multiplier">(x1)</span>
+                    </div>
+                </div>
+                
+                <!-- Medaglie -->
+                <div class="medals-container">
+                    <div class="medal bronze" id="medal-5" title="5 bandiere indovinate">
+                        <i class="fas fa-medal"></i>
+                        <span class="medal-count">5</span>
+                    </div>
+                    <div class="medal silver" id="medal-10" title="10 bandiere indovinate">
+                        <i class="fas fa-medal"></i>
+                        <span class="medal-count">10</span>
+                    </div>
+                    <div class="medal gold" id="medal-20" title="20 bandiere indovinate">
+                        <i class="fas fa-medal"></i>
+                        <span class="medal-count">20</span>
+                    </div>
+                    <div class="medal platinum" id="medal-50" title="50 bandiere indovinate">
+                        <i class="fas fa-trophy"></i>
+                        <span class="medal-count">50</span>
+                    </div>
+                    <div class="medal diamond" id="medal-100" title="100 bandiere indovinate">
+                        <i class="fas fa-crown"></i>
+                        <span class="medal-count">100</span>
+                    </div>
+                    <div class="medal legendary" id="medal-200" title="200 bandiere indovinate">
+                        <i class="fas fa-gem"></i>
+                        <span class="medal-count">200</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Area principale del gioco -->
+        <main class="game-main">
+            <!-- Loading spinner -->
+            <div class="loading-spinner" id="loading-spinner">
+                <div class="spinner"></div>
+                <p>Caricamento bandiera...</p>
+            </div>
+
+            <!-- Contenuto del gioco -->
+            <div class="game-content" id="game-content" style="display: none;">
+                <!-- Bandiera -->
+                <div class="flag-container">
+                    <div class="flag-wrapper">
+                        <img id="flag-image" src="" alt="Bandiera da indovinare" class="flag-image">
+                        <div class="flag-shadow"></div>
+                    </div>
+                </div>
+
+                <!-- Opzioni di risposta -->
+                <div class="options-container">
+                    <div class="options-grid">
+                        <button class="option-button" id="option-0" onclick="selectOption(0)">
+                            <span class="option-text"></span>
+                            <div class="option-indicator">
+                                <i class="fas fa-check"></i>
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </button>
+                        <button class="option-button" id="option-1" onclick="selectOption(1)">
+                            <span class="option-text"></span>
+                            <div class="option-indicator">
+                                <i class="fas fa-check"></i>
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </button>
+                        <button class="option-button" id="option-2" onclick="selectOption(2)">
+                            <span class="option-text"></span>
+                            <div class="option-indicator">
+                                <i class="fas fa-check"></i>
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </button>
+                        <button class="option-button" id="option-3" onclick="selectOption(3)">
+                            <span class="option-text"></span>
+                            <div class="option-indicator">
+                                <i class="fas fa-check"></i>
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Suggerimento -->
+                <div class="tip-container" id="tip-container" style="display: none;">
+                    <div class="tip-content">
+                        <i class="fas fa-lightbulb"></i>
+                        <p id="tip-text"></p>
+                    </div>
+                </div>
+
+                <!-- Animazione mappa -->
+                <div class="map-container" id="map-container" style="display: none;">
+                    <div class="map-header">
+                        <h3>Posizione del paese</h3>
+                        <div class="map-tech-overlay">
+                            <div class="tech-grid"></div>
+                            <div class="scanning-line"></div>
+                        </div>
+                    </div>
+                    <div class="map-content" id="map-content">
+                        <!-- La mappa verrà inserita qui -->
+                    </div>
+                </div>
+
+                <!-- Pulsante continua -->
+                <div class="continue-container" id="continue-container" style="display: none;">
+                    <button class="continue-button" id="continue-button" onclick="nextQuestion()">
+                        <span>Continua</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer con avviso sui cookie -->
+        <footer class="game-footer">
+            <div class="cookie-notice">
+                <i class="fas fa-info-circle"></i>
+                <p>I tuoi punteggi sono salvati localmente. Se cancelli i cookie, perderai tutti i progressi!</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script src="assets/js/game.js"></script>
+    <script src="assets/js/map-animation.js"></script>
+    <script src="assets/js/storage.js"></script>
+</body>
+</html>
+
