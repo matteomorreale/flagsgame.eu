@@ -1,61 +1,24 @@
 <?php
 /**
- * Database Setup Script
- * Author: Matteo Morreale
+ * Extended Countries Database Setup
+ * Expands the flag game database with 195+ countries
  */
 
-require_once 'config/database.php';
+require_once __DIR__ . '/config/database.php';
 
-// Verifica che il driver SQLite sia disponibile
-if (!extension_loaded('pdo_sqlite')) {
-    die("Errore: L'estensione PDO SQLite non è installata. Installa php-sqlite3 o php-pdo-sqlite.\n");
+// Make sure the Database class is available
+if (!class_exists('Database')) {
+    require_once __DIR__ . '/classes/Database.php';
 }
 
 try {
-    $database = new DatabaseConfig();
-    $pdo = $database->getConnection();
+    $pdo = Database::getInstance()->getConnection();
     
-    echo "Creazione delle tabelle...\n";
+    echo "Iniziando popolamento esteso del database...\n";
     
-    // Crea la tabella countries
-    $sql = "CREATE TABLE IF NOT EXISTS countries (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE,
-        capital TEXT,
-        iso2_code TEXT NOT NULL UNIQUE,
-        iso3_code TEXT NOT NULL UNIQUE,
-        latitude REAL,
-        longitude REAL,
-        geojson_data TEXT
-    )";
-    $pdo->exec($sql);
-    echo "Tabella 'countries' creata.\n";
-    
-    // Crea la tabella flags
-    $sql = "CREATE TABLE IF NOT EXISTS flags (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        country_id INTEGER NOT NULL,
-        image_url TEXT NOT NULL,
-        FOREIGN KEY (country_id) REFERENCES countries(id)
-    )";
-    $pdo->exec($sql);
-    echo "Tabella 'flags' creata.\n";
-    
-    // Crea la tabella tips
-    $sql = "CREATE TABLE IF NOT EXISTS tips (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        country_id INTEGER NOT NULL,
-        tip_text TEXT NOT NULL,
-        FOREIGN KEY (country_id) REFERENCES countries(id)
-    )";
-    $pdo->exec($sql);
-    echo "Tabella 'tips' creata.\n";
-    
-    // Popola con alcuni dati di esempio
-    echo "Popolamento con dati di esempio...\n";
-    
-    $sample_countries = [
-       // Europa
+    // Lista completa di paesi del mondo con coordinate precise
+    $extended_countries = [
+        // Europa
         ['Albania', 'Tirana', 'AL', 'ALB', 41.3275, 19.8187, 'L\'aquila a due teste è il simbolo nazionale albanese.'],
         ['Andorra', 'Andorra la Vella', 'AD', 'AND', 42.5063, 1.5218, 'Piccolo principato tra Francia e Spagna.'],
         ['Austria', 'Vienna', 'AT', 'AUT', 47.5162, 14.5501, 'La bandiera austriaca è una delle più antiche del mondo.'],
@@ -257,8 +220,10 @@ try {
         ['Tuvalu', 'Funafuti', 'TV', 'TUV', -7.1095, 177.6493, 'Le nove stelle rappresentano i nove atolli.'],
         ['Vanuatu', 'Port Vila', 'VU', 'VUT', -15.3767, 166.9592, 'Il cinghiale rappresenta la prosperità.']
     ];
+
+    $inserted_count = 0;
     
-    foreach ($sample_countries as $country_data) {
+    foreach ($extended_countries as $country_data) {
         // Controlla se il paese esiste già
         $stmt = $pdo->prepare("SELECT id FROM countries WHERE iso2_code = ?");
         $stmt->execute([$country_data[2]]);
@@ -269,6 +234,7 @@ try {
             $stmt = $pdo->prepare("INSERT INTO countries (name, capital, iso2_code, iso3_code, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([$country_data[0], $country_data[1], $country_data[2], $country_data[3], $country_data[4], $country_data[5]]);
             $country_id = $pdo->lastInsertId();
+            $inserted_count++;
         } else {
             $country_id = $existing_country['id'];
         }
@@ -282,7 +248,7 @@ try {
                 $stmt->execute([$country_id, $country_data[6]]);
             }
             
-            // Inserisci anche la bandiera (usando un URL placeholder per ora)
+            // Inserisci anche la bandiera usando FlagCDN
             $flag_url = "https://flagcdn.com/w320/" . strtolower($country_data[2]) . ".png";
             $stmt = $pdo->prepare("SELECT id FROM flags WHERE country_id = ?");
             $stmt->execute([$country_id]);
@@ -293,11 +259,16 @@ try {
         }
     }
     
-    echo "Database configurato con successo!\n";
-    echo "Paesi inseriti: " . count($sample_countries) . "\n";
+    // Conta i paesi totali nel database
+    $stmt = $pdo->query("SELECT COUNT(*) as total FROM countries");
+    $total_countries = $stmt->fetch()['total'];
+    
+    echo "✅ Database esteso completato!\n";
+    echo "📊 Paesi aggiunti in questa sessione: $inserted_count\n";
+    echo "🌍 Totale paesi nel database: $total_countries\n";
+    echo "🎮 Il gioco ora ha una varietà molto più ampia di bandiere!\n";
     
 } catch (Exception $e) {
-    echo "Errore durante la configurazione del database: " . $e->getMessage() . "\n";
+    echo "❌ Errore durante l'espansione del database: " . $e->getMessage() . "\n";
 }
 ?>
-
