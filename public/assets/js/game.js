@@ -168,7 +168,11 @@ class FlagGame {
         // Aggiorna le statistiche visualizzate
         this.updateStatsDisplay();
         this.updateMedalsDisplay();
-        this.checkForNewMedals();
+        
+        // Controlla per nuove medaglie solo se la risposta è corretta
+        if (isCorrect) {
+            this.checkForNewMedals();
+        }
         
         // Salva le statistiche
         this.saveGameStats();
@@ -643,10 +647,17 @@ class FlagGame {
         ];
         
         // Controlla se è stata appena raggiunta una nuova medaglia
+        // Solo se la risposta attuale è corretta (totalCorrect è appena aumentato)
         const previousTotal = this.gameStats.totalCorrect - 1;
         
         medals.forEach(medal => {
-            if (this.gameStats.totalCorrect >= medal.threshold && previousTotal < medal.threshold) {
+            // Mostra il popup solo se:
+            // 1. Il totale attuale ha raggiunto la soglia
+            // 2. Il totale precedente era sotto la soglia
+            // 3. previousTotal è >= 0 (per evitare situazioni anomale)
+            if (this.gameStats.totalCorrect >= medal.threshold && 
+                previousTotal < medal.threshold && 
+                previousTotal >= 0) {
                 this.showMedalNotification(medal);
             }
         });
