@@ -67,6 +67,7 @@ window.MapAnimation = (function() {
         
         // Coordinate display
         const coordsDisplay = document.createElement('div');
+        coordsDisplay.classList.add("coordsDisplay");
         coordsDisplay.style.cssText = `
             position: absolute;
             top: 290px;

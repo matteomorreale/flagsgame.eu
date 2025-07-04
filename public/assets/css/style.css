@@ -917,6 +917,9 @@ body {
 
 /* Responsive per mobile */
 @media (max-width: 768px) {
+    .coordsDisplay{
+        display:none;
+    }
     .country-infos {
         top: 5px;
         left: 5px;
