@@ -193,14 +193,11 @@ class FlagGame {
             }
         }
         
-        // Evidenzia l'opzione selezionata con forzatura per touch devices
+        // Evidenzia l'opzione selezionata con animazione speciale per risposte corrette
         const selectedButton = document.getElementById(`option-${selectedIndex}`);
         if (isCorrect) {
-            selectedButton.className = 'option-button correct';
-            // Forza il ridisegno per dispositivi touch
-            selectedButton.style.background = 'var(--gradient-success)';
-            selectedButton.style.borderColor = 'var(--success-color)';
-            selectedButton.style.color = 'white';
+            // Attiva l'animazione oro->verde con stelle
+            this.playCorrectAnswerAnimation(selectedButton);
         } else {
             selectedButton.className = 'option-button incorrect';
             // Forza il ridisegno per dispositivi touch
@@ -212,17 +209,8 @@ class FlagGame {
         // Evidenzia l'opzione corretta se diversa da quella selezionata
         if (!isCorrect && correctIndex !== -1) {
             const correctButton = document.getElementById(`option-${correctIndex}`);
-            correctButton.className = 'option-button correct';
-            // Forza il ridisegno per dispositivi touch
-            correctButton.style.background = 'var(--gradient-success)';
-            correctButton.style.borderColor = 'var(--success-color)';
-            correctButton.style.color = 'white';
-        }
-        
-        // Aggiungi animazione pulse all'opzione corretta
-        if (correctIndex !== -1) {
-            const correctButton = document.getElementById(`option-${correctIndex}`);
-            correctButton.classList.add('pulse');
+            // Attiva l'animazione oro->verde con stelle anche per la risposta corretta
+            this.playCorrectAnswerAnimation(correctButton);
         }
         
         // Forza un reflow per assicurarsi che i cambiamenti siano applicati
@@ -604,8 +592,14 @@ class FlagGame {
             button.style.borderColor = '';
             button.style.color = '';
             
-            // Rimuovi anche eventuali classi di animazione
-            button.classList.remove('pulse');
+            // Rimuovi tutte le classi di animazione
+            button.classList.remove('pulse', 'correct-animation', 'correct', 'incorrect');
+            
+            // Rimuovi eventuali effetti stelle rimasti
+            const starBurst = button.querySelector('.star-burst');
+            if (starBurst) {
+                starBurst.parentNode.removeChild(starBurst);
+            }
         }
     }
     
@@ -797,6 +791,46 @@ class FlagGame {
                 this.gameStats = { ...this.gameStats, ...savedStats };
             }
         }
+    }
+    
+    playCorrectAnswerAnimation(button) {
+        // Aggiungi la classe di animazione
+        button.classList.add('correct-animation');
+        
+        // Crea l'effetto stelle burst
+        this.createStarBurst(button);
+        
+        // Dopo 800ms rimuovi la classe di animazione e aggiungi quella finale
+        setTimeout(() => {
+            button.classList.remove('correct-animation');
+            button.classList.add('correct');
+            // Forza il ridisegno per dispositivi touch
+            button.style.background = 'var(--gradient-success)';
+            button.style.borderColor = 'var(--success-color)';
+            button.style.color = 'white';
+        }, 800);
+    }
+    
+    createStarBurst(button) {
+        const starBurst = document.createElement('div');
+        starBurst.className = 'star-burst';
+        
+        // Crea 8 stelle per l'effetto burst
+        for (let i = 0; i < 8; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.innerHTML = '★';
+            starBurst.appendChild(star);
+        }
+        
+        button.appendChild(starBurst);
+        
+        // Rimuovi l'effetto stelle dopo l'animazione (più tempo per le stelle)
+        setTimeout(() => {
+            if (starBurst.parentNode) {
+                starBurst.parentNode.removeChild(starBurst);
+            }
+        }, 1000);
     }
 }
 
