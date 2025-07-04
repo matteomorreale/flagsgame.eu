@@ -915,6 +915,7 @@ body {
     }
     
     .stats-container {
+        width: 100vw;
         flex-direction: column;
         gap: 0.5rem;
         padding: 0.5rem;
